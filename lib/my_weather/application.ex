@@ -4,7 +4,7 @@ defmodule MyWeather.Application do
   def start(_, _) do
     children = [
       {Finch, name: MyFinch},
-      MyWeather.UI
+      MyWeather.Controller
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)
