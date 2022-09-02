@@ -1,4 +1,9 @@
 defmodule MyWeather.Provider.VisualCrossing do
+  @moduledoc """
+  Fetch the weather condition at a particular hour of a day in a given location.
+  Then parse and returns relevant fields as a custom WeatherCondition struct
+  """
+
   @behaviour MyWeather.WeatherProviderBehavior
 
   @impl true
@@ -6,7 +11,7 @@ defmodule MyWeather.Provider.VisualCrossing do
     %{endpoint: endpoint, api_key: api_key} = api_config()
 
     Finch.build(:get, build_url(endpoint, location, api_key))
-    |> Finch.request(MyFinch)
+    |> MyWeather.Provider.Finch.request()
     |> parse_response()
   end
 
@@ -28,7 +33,7 @@ defmodule MyWeather.Provider.VisualCrossing do
 
   defp parse_response(resp) do
     with {:ok, body} <- parse(resp),
-         {:ok, data} <- JSON.decode(body),
+         {:ok, data} <- Jason.decode(body),
          {:ok, [day]} <- Map.fetch(data, "days"),
          condition <- map_to_condition(day) do
       {:ok, condition}
@@ -37,9 +42,7 @@ defmodule MyWeather.Provider.VisualCrossing do
     end
   end
 
-  defp parse({:ok, %{status: 200, body: body}}) do
-    {:ok, body}
-  end
+  defp parse({:ok, %{status: 200, body: body}}), do: {:ok, body}
 
   defp parse(_) do
     {:error, :unavailable}

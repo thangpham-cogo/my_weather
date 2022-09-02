@@ -1,0 +1,76 @@
+{
+    "queryCost": 1,
+    "latitude": -36.8523,
+    "longitude": 174.764,
+    "resolvedAddress": "Auckland, New Zealand",
+    "address": "Auckland,NZ",
+    "timezone": "Pacific/Auckland",
+    "tzoffset": 12.0,
+    "days": [
+        {
+            "datetime": "2022-09-01",
+            "datetimeEpoch": 1661947200,
+            "tempmax": 17.0,
+            "tempmin": 7.0,
+            "temp": 11.7,
+            "feelslikemax": 17.0,
+            "feelslikemin": 7.0,
+            "feelslike": 11.6,
+            "dew": 7.2,
+            "humidity": 75.6,
+            "precip": 0.2,
+            "precipprob": 100.0,
+            "precipcover": 8.33,
+            "preciptype": [
+                "rain"
+            ],
+            "snow": 0.0,
+            "snowdepth": 0.0,
+            "windgust": 11.5,
+            "windspeed": 11.2,
+            "winddir": 133.3,
+            "pressure": 1031.8,
+            "cloudcover": 71.9,
+            "visibility": 10.0,
+            "solarradiation": 218.3,
+            "solarenergy": 18.8,
+            "uvindex": 10.0,
+            "severerisk": 10.0,
+            "sunrise": "06:42:28",
+            "sunriseEpoch": 1661971348,
+            "sunset": "18:00:22",
+            "sunsetEpoch": 1662012022,
+            "moonphase": 0.13,
+            "conditions": "Rain, Partially cloudy",
+            "description": "Partly cloudy throughout the day with morning rain.",
+            "icon": "rain",
+            "stations": [
+                "NZAA",
+                "C4778"
+            ],
+            "source": "obs"
+        }
+    ],
+    "stations": {
+        "NZAA": {
+            "distance": 18941.0,
+            "latitude": -37.02,
+            "longitude": 174.8,
+            "useCount": 0,
+            "id": "NZAA",
+            "name": "NZAA",
+            "quality": 50,
+            "contribution": 0.0
+        },
+        "C4778": {
+            "distance": 2515.0,
+            "latitude": -36.863,
+            "longitude": 174.739,
+            "useCount": 0,
+            "id": "C4778",
+            "name": "CW4778 Auckland NZ",
+            "quality": 0,
+            "contribution": 0.0
+        }
+    }
+}
