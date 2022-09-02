@@ -6,12 +6,13 @@ defmodule MyWeather.Controller do
   use Task, restart: :temporary
 
   @location "Auckland,NZ"
+  @interval 1000
 
   def start_link(_opts) do
     Task.start_link(__MODULE__, :run, [])
   end
 
-  def run(interval \\ interval()) do
+  def run() do
     ui = ui_client()
 
     @location
@@ -21,11 +22,11 @@ defmodule MyWeather.Controller do
       _ -> ui.display_error()
     end
 
-    if is_nil(interval) do
-      :ok
-    else
-      Process.sleep(interval)
-      run()
+    reschedule()
+
+    receive do
+      :exit -> Process.exit(self(), :normal)
+      :fetch_weather -> run()
     end
   end
 
@@ -38,10 +39,14 @@ defmodule MyWeather.Controller do
   end
 
   defp interval() do
-    app_config() |> Keyword.get(:interval, nil)
+    app_config() |> Keyword.get(:interval, @interval)
   end
 
   defp app_config() do
     Application.get_env(:my_weather, MyWeather.Controller, [])
+  end
+
+  defp reschedule() do
+    Process.send_after(self(), :fetch_weather, interval())
   end
 end

@@ -12,7 +12,9 @@ defmodule MyWeather.ControllerTest do
 
       expect(MockUIClient, :display_weather, fn _ -> :ok end)
 
-      assert Controller.run() == :ok
+      {:ok, pid} = Controller.start_link([])
+      Process.sleep(1)
+      send(pid, :exit)
     end
 
     test "calls display_error if fails to fetch data" do
@@ -20,9 +22,20 @@ defmodule MyWeather.ControllerTest do
 
       expect(MockUIClient, :display_error, fn -> :ok end)
 
-      assert Controller.run() == :ok
+      {:ok, pid} = Controller.start_link([])
+      Process.sleep(1)
+      send(pid, :exit)
+    end
+
+    test "call itself on a set interval" do
+      expect(MockWeatherProvider, :current_weather, 3, fn "Auckland,NZ" -> {:ok, "weather"} end)
+
+      expect(MockUIClient, :display_weather, 3, fn _ -> :ok end)
+
+      {:ok, pid} = Controller.start_link([])
+      Process.sleep(3000)
+
+      send(pid, :exit)
     end
   end
-
-  defp read_json(filename), do: File.read!(Path.join(["test", "data", filename]))
 end
