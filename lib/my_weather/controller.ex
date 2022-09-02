@@ -23,11 +23,11 @@ defmodule MyWeather.Controller do
   end
 
   defp provider() do
-    app_config() |> Keyword.get(:provider, MyWeather.Provider.VisualCrossing)
+    app_config() |> Keyword.get(:provider)
   end
 
   defp ui_client() do
-    app_config() |> Keyword.get(:ui_client, MyWeather.UI.Console)
+    app_config() |> Keyword.get(:ui_client)
   end
 
   defp app_config() do

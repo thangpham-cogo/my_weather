@@ -3,13 +3,16 @@ defmodule MyWeather.UI.Console do
   Handles displaying weather condition to the console
   """
 
-  @spec display_weather(data :: MyWeather.WeatherCondition.t()) :: :ok
+  @behaviour MyWeather.UIClientBehavior
+
+  @impl true
   def display_weather(data) do
     data
     |> format_data()
     |> IO.puts()
   end
 
+  @impl true
   def display_error() do
     IO.puts("Sorry. Please come back later")
   end
