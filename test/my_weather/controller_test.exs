@@ -6,19 +6,21 @@ defmodule MyWeather.ControllerTest do
 
   setup :verify_on_exit!
 
-  describe "run/0" do
+  describe "run/1" do
     test "calls display_weather if data comes back" do
-      expect(MockWeatherProvider, :current_weather, fn _ -> {:ok, "weather"} end)
-      expect(MockUIClient, :display_weather, fn _ -> "display weather condition" end)
+      expect(MockWeatherProvider, :current_weather, fn "Auckland,NZ" -> {:ok, "weather"} end)
 
-      assert Controller.run() == "display weather condition"
+      expect(MockUIClient, :display_weather, fn _ -> :ok end)
+
+      assert Controller.run() == :ok
     end
 
     test "calls display_error if fails to fetch data" do
-      expect(MockWeatherProvider, :current_weather, fn _ -> {:error, :unavailable} end)
-      expect(MockUIClient, :display_error, fn -> "display error" end)
+      expect(MockWeatherProvider, :current_weather, fn "Auckland,NZ" -> {:error, :unavailable} end)
 
-      assert Controller.run() == "display error"
+      expect(MockUIClient, :display_error, fn -> :ok end)
+
+      assert Controller.run() == :ok
     end
   end
 

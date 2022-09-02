@@ -11,7 +11,7 @@ defmodule MyWeather.Controller do
     Task.start_link(__MODULE__, :run, [])
   end
 
-  def run() do
+  def run(interval \\ interval()) do
     ui = ui_client()
 
     @location
@@ -19,6 +19,13 @@ defmodule MyWeather.Controller do
     |> case do
       {:ok, data} -> ui.display_weather(data)
       _ -> ui.display_error()
+    end
+
+    if is_nil(interval) do
+      :ok
+    else
+      Process.sleep(interval)
+      run()
     end
   end
 
@@ -28,6 +35,10 @@ defmodule MyWeather.Controller do
 
   defp ui_client() do
     app_config() |> Keyword.get(:ui_client)
+  end
+
+  defp interval() do
+    app_config() |> Keyword.get(:interval, nil)
   end
 
   defp app_config() do
